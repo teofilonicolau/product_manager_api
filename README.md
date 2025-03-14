@@ -20,7 +20,7 @@ API para gerenciamento de produtos (CRUD completo), desenvolvida com Spring Boot
 - Documentação com Swagger
 - Logs detalhados para depuração
 
-## Testes
+## Testeando no Postman
  - Método: POST
  - 1. Criar Produto (POST)
  - URL: http://localhost:8080/products
@@ -153,11 +153,111 @@ docker run -p 8080:8080 product-manager
 | PUT     | `/products/{id}`     | Atualiza um produto      |
 | DELETE  | `/products/{id}`     | Remove um produto        |
 
-## Testes
+## Testes Unitários
+### **4. Executando os Testes**
+1. Abra sua IDE (como IntelliJ).
+2. Clique com o botão direito na classe `ProductServiceTest` e selecione **Run 'ProductServiceTest'**.
+3. Verifique se todos os testes passam com sucesso.
+
 Executar testes com:
 ```sh
 mvn test
 ```
+### Teste Unitário da classe ProductService
+![image](https://github.com/user-attachments/assets/9319f07e-aa72-4a12-9b24-603021838378)
+### **3. Explicação dos Testes**
+1. **`testFindAll`:** Testa se o método `findAll()` retorna a lista correta de produtos.
+2. **`testFindById_ExistingId`:** Verifica se um produto existente é retornado corretamente.
+3. **`testFindById_NonExistingId`:** Garante que o método lança `ResourceNotFoundException` para IDs inexistentes.
+4. **`testSave`:** Testa se um produto é salvo corretamente.
+5. **`testDelete_ExistingId`:** Testa se a exclusão ocorre corretamente para um ID existente.
+6. **`testDelete_NonExistingId`:** Garante que `EmptyResultDataAccessException` seja lançado ao tentar deletar um ID inexistente.
+7. ✅ Este é um teste unitário, pois verifica o comportamento de ProductService isoladamente.
+8.🔹 Usa Mockito para simular o ProductRepository, evitando acessar um banco real.
+9.⚡ Garante que o serviço retorna os valores esperados e lança exceções corretamente.
+
+### Teste Unitário da classe ProductControllerTest
+![image](https://github.com/user-attachments/assets/038d64de-496f-4a86-abec-c6d1abc63d76)
+### **Explicação dos Testes**
+
+1. **Configuração e Mocking**
+   - **`@MockBean`**: Cria um mock do `ProductService` para interceptar chamadas e fornecer respostas simuladas. Isso impede o acesso ao banco de dados real.
+   - **`@WithMockUser`**: Cria um usuário fictício para autenticação. Essencial porque a aplicação está protegida pelo Spring Security.
+
+2. **`testGetAll()`**
+   - Simula o método `findAll()` do `ProductService`, retornando uma lista fictícia de produtos.
+   - Envia uma requisição `GET /products`.
+   - Verifica:
+     - O status da resposta é `200 OK`.
+     - O tamanho da lista retornada é 2.
+     - Os atributos dos produtos, como `nome` e `preco`, correspondem aos valores simulados.
+
+3. **`testCreateProduct()`**
+   - Simula o método `save()` do `ProductService`, retornando um produto fictício salvo.
+   - Envia uma requisição `POST /products` com um JSON no corpo representando o produto a ser criado.
+   - Verifica:
+     - O status da resposta é `200 OK`.
+     - Os valores do produto retornado correspondem aos esperados, como `id` e `nome`.
+
+---
+
+### **Pontos-Chave**
+- O uso de mocks permite testar apenas a lógica do controlador, sem se preocupar com o funcionamento do serviço ou repositório.
+- A validação é feita por meio de:
+  - **Status HTTP** esperado.
+  - **Conteúdo JSON** retornado, validado com `jsonPath`.
+
+Esses testes garantem que o controlador está funcionando conforme o esperado, enquanto isola dependências externas.
+
+
+   
+
+---
+
+
+### Teste Unitário da classe ProductDTOTest    
+
+![image](https://github.com/user-attachments/assets/927d9288-669f-4f3b-941a-a2c6bc6b3d9f)
+   
+
+Esse teste unitário verifica a **validação do DTO (`ProductDTO`)** usando a API de validação do Jakarta (`jakarta.validation`). Vamos entender o que foi testado:
+
+### **1️⃣ Configuração inicial**
+- **`@BeforeAll setUp()`**:  
+  - Cria uma fábrica de validação (`ValidatorFactory`) e um validador (`Validator`).
+  - O `Validator` será usado nos testes para verificar se os dados inseridos no `ProductDTO` estão de acordo com as regras de validação.
+
+---
+
+### **2️⃣ Testes de validação**
+#### ✅ **Testando um DTO válido (`testValidDTO`)**
+- Cria um `ProductDTO` com um nome válido (`"Product Valid"`) e um preço positivo (`50.0`).
+- **Verifica que não há violações de validação** (`assertEquals(0, violations.size())`).
+- ✅ Esperado: **Nenhum erro de validação.**
+
+---
+
+#### ❌ **Testando um nome inválido (`testInvalidName`)**
+- Cria um `ProductDTO` com um nome **vazio** (`""`), que provavelmente viola a regra de que o nome deve ter entre 2 e 100 caracteres.
+- **Verifica que há uma violação de validação** (`assertEquals(1, violations.size())`).
+- **Confirma que a mensagem de erro esperada é retornada** (`"O nome deve ter entre 2 e 100 caracteres"`).
+- ✅ Esperado: **Erro de validação no nome.**
+
+---
+
+#### ❌ **Testando um preço inválido (`testInvalidPrice`)**
+- Cria um `ProductDTO` com um preço **negativo** (`-10.0`), que viola a regra de que o preço deve ser maior ou igual a zero.
+- **Verifica que há uma violação de validação** (`assertEquals(1, violations.size())`).
+- **Confirma que a mensagem de erro esperada é retornada** (`"O preço deve ser maior ou igual a zero"`).
+- ✅ Esperado: **Erro de validação no preço.**
+
+---
+
+### **📌 Conclusão**
+- O teste verifica se as **restrições de validação** (como nome e preço) estão funcionando corretamente no `ProductDTO`.
+- Ele simula **casos válidos e inválidos** e confirma que as mensagens de erro apropriadas são geradas quando necessário.
+
+
 
 ## Repositório
 (https://github.com/teofilonicolau/product_manager_api.git)
