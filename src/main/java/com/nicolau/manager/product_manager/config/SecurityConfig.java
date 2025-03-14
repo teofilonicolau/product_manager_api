@@ -15,14 +15,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/products/**").permitAll() // Rota pública
-                        .anyRequest().authenticated()              // Rota protegida
+                        .anyRequest().permitAll() // Permite todas as rotas sem autenticação
                 )
-                .httpBasic(Customizer.withDefaults()) // Substituto para `httpBasic()`
-                .csrf(csrf -> csrf.disable());       // Substituto para `csrf().disable()`
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
