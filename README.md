@@ -55,6 +55,51 @@ URL: http://localhost:8080/products/search?name=Limão
 Clique em Send.
 
 Espera-se: Código 200 OK e uma lista de produtos cujo nome contenha o termo "Limão".
+![image](https://github.com/user-attachments/assets/4355e5ad-fff9-420b-9019-27bc71ba3703)
+
+- Método: GET
+- 5. Buscar Produtos por Faixa de Preço (GET)
+- URL: http://localhost:8080/products/range?min=50&max=150
+- Substitua os valores 50 (mínimo) e 150 (máximo) pela faixa de preço desejada.
+- Clique em Send.
+
+Espera-se: Código 200 OK e uma lista de produtos dentro da faixa de preço especificada.
+![image](https://github.com/user-attachments/assets/0bb37743-2f8e-4dc9-942a-ef953f47093a)
+
+- Método: PUT
+- URL: http://localhost:8080/products/{id}
+
+- Substitua {id} pelo ID de um produto existente.
+- Body:
+
+- Vá para a aba Body no Postman.
+
+- Escolha raw e selecione JSON.
+   
+- Insira o seguinte conteúdo: 
+  ```sh
+      {
+       "nome": "Torta Atualizada",
+       "preco": 80.00
+      }
+
+   ``
+
+![image](https://github.com/user-attachments/assets/8163a4ea-d6ff-4503-97c9-99f81bbf3060)
+
+- Método: DELETE
+- 7. Deletar Produto (DELETE)
+- URL: http://localhost:8080/products/{id}
+
+- Substitua {id} pelo ID de um produto existente
+- Clique em Send.
+
+- ![image](https://github.com/user-attachments/assets/0e91626e-b434-413e-be5e-8173846578b4)
+
+
+
+
+
 
 
 
