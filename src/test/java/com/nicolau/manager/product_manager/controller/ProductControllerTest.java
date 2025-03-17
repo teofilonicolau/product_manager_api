@@ -1,7 +1,7 @@
 package com.nicolau.manager.product_manager.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nicolau.manager.product_manager.config.SecurityConfig;
+import com.nicolau.manager.product_manager.security.SecurityConfig;
 import com.nicolau.manager.product_manager.dto.ProductDTO;
 import com.nicolau.manager.product_manager.model.Product;
 import com.nicolau.manager.product_manager.service.ProductService;

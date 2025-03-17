@@ -31,11 +31,13 @@ public class ProductController {
 
     @PostMapping
     public Product create(@Valid @RequestBody ProductDTO productDTO) {
+        System.out.println("Produto recebido: " + productDTO.getNome() + ", preço: " + productDTO.getPreco());
         Product product = new Product();
         product.setNome(productDTO.getNome());
         product.setPreco(productDTO.getPreco());
         return service.save(product);
     }
+
 
     @PutMapping("/{id}")
     public Product update(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
