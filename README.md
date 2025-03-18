@@ -6,7 +6,7 @@ API para gerenciamento de produtos (CRUD completo), desenvolvida com Spring Boot
 - Java 17
 - Spring Boot 3.4.3
 - Spring Data JPA
-- Spring Security
+- Spring Security(JWT)
 - H2 Database
 - PostgreSQL
 - Docker
@@ -157,28 +157,13 @@ Espera-se: Código 200 OK e uma lista de produtos dentro da faixa de preço espe
 
   
  
-
-
-
-
-
-
-
-
-
-
-
-
-. 
-
-   
-
-
-
 ### Requisitos
 - Java 17+
 - Maven 3+
 - Docker (opcional para containerização)
+- PostgreSQL (para execução com banco de dados relacional) 
+- Configuração do Banco de Dados
+- Por padrão, a aplicação utiliza o banco de dados em memória H2 para testes e desenvolvimento local. Para produção ou ambientes mais robustos, recomenda-se configurar o PostgreSQL.  
 
 ### Configuração do Banco de Dados
 Por padrão, a aplicação utiliza o banco de dados em memória H2(testes). E posteriormente ultiliza  PostgreSQL no Docker.`.
@@ -261,7 +246,6 @@ mvn test
      - O status da resposta é `200 OK`.
      - Os valores do produto retornado correspondem aos esperados, como `id` e `nome`.
 
----
 
 ### **Pontos-Chave**
 - O uso de mocks permite testar apenas a lógica do controlador, sem se preocupar com o funcionamento do serviço ou repositório.
@@ -270,12 +254,6 @@ mvn test
   - **Conteúdo JSON** retornado, validado com `jsonPath`.
 
 Esses testes garantem que o controlador está funcionando conforme o esperado, enquanto isola dependências externas.
-
-
-   
-
----
-
 
 ### Teste Unitário da classe ProductDTOTest    
 
@@ -289,15 +267,12 @@ Esse teste unitário verifica a **validação do DTO (`ProductDTO`)** usando a A
   - Cria uma fábrica de validação (`ValidatorFactory`) e um validador (`Validator`).
   - O `Validator` será usado nos testes para verificar se os dados inseridos no `ProductDTO` estão de acordo com as regras de validação.
 
----
-
 ### **2️⃣ Testes de validação**
 #### ✅ **Testando um DTO válido (`testValidDTO`)**
 - Cria um `ProductDTO` com um nome válido (`"Product Valid"`) e um preço positivo (`50.0`).
 - **Verifica que não há violações de validação** (`assertEquals(0, violations.size())`).
 - ✅ Esperado: **Nenhum erro de validação.**
 
----
 
 #### ❌ **Testando um nome inválido (`testInvalidName`)**
 - Cria um `ProductDTO` com um nome **vazio** (`""`), que provavelmente viola a regra de que o nome deve ter entre 2 e 100 caracteres.
@@ -305,7 +280,6 @@ Esse teste unitário verifica a **validação do DTO (`ProductDTO`)** usando a A
 - **Confirma que a mensagem de erro esperada é retornada** (`"O nome deve ter entre 2 e 100 caracteres"`).
 - ✅ Esperado: **Erro de validação no nome.**
 
----
 
 #### ❌ **Testando um preço inválido (`testInvalidPrice`)**
 - Cria um `ProductDTO` com um preço **negativo** (`-10.0`), que viola a regra de que o preço deve ser maior ou igual a zero.
@@ -313,7 +287,6 @@ Esse teste unitário verifica a **validação do DTO (`ProductDTO`)** usando a A
 - **Confirma que a mensagem de erro esperada é retornada** (`"O preço deve ser maior ou igual a zero"`).
 - ✅ Esperado: **Erro de validação no preço.**
 
----
 
 ### **📌 Conclusão**
 - O teste verifica se as **restrições de validação** (como nome e preço) estão funcionando corretamente no `ProductDTO`.
