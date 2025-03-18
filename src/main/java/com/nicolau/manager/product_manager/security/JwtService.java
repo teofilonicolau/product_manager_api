@@ -3,6 +3,7 @@ package com.nicolau.manager.product_manager.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -12,10 +13,12 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "your_secret_key"; // Troque por uma chave forte
+    // Lê a chave secreta do application.properties
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -24,7 +27,7 @@ public class JwtService {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // Linha corrigida
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // Usa a nova chave forte
                 .compact();
     }
 
