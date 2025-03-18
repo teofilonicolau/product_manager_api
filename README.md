@@ -143,8 +143,12 @@ Espera-se: Código 200 OK e uma lista de produtos dentro da faixa de preço espe
 - Clique em "Try it out".
 
 - Clique em "Execute" para testar.
+- ![image](https://github.com/user-attachments/assets/cc94c8ce-ef89-4d89-b714-dff1b8e4266a)
+
 
 - Se tudo estiver configurado corretamente, você deve receber a lista de produtos (ou uma resposta vazia, caso não existam produtos no banco de dados).
+- ![image](https://github.com/user-attachments/assets/211040ca-0f9a-4f20-9655-da436cae304b)
+
 
 - Valide os resultados:
 
