@@ -96,6 +96,64 @@ Espera-se: Código 200 OK e uma lista de produtos dentro da faixa de preço espe
 
 - ![image](https://github.com/user-attachments/assets/0e91626e-b434-413e-be5e-8173846578b4)
 
+### Teste no Swagger
+- URL::http://localhost:8080/swagger-ui/index.html
+- Acesse o endpoint de login:
+- No Swagger, procure pelo endpoint POST /auth/login.
+- Clique em "Try it out".
+- Insira o payload no seguinte formato (usando as credenciais configuradas no CustomUserDetailsService):
+  ```sh
+      {
+       "username": "admin",
+       "password": "admin123"
+      }
+
+   ```
+  
+- Clique em "Execute" para gerar um token JWT válido.
+- ![image](https://github.com/user-attachments/assets/90edfedd-24a4-4a4c-8010-72c56be85a98)
+
+
+- Copie o token JWT:
+- ![image](https://github.com/user-attachments/assets/5a053aae-5d6d-4f5d-8418-73f89e075aed)
+
+
+- Na resposta do endpoint, localize o campo token no corpo da resposta.
+
+- Copie o token (somente o valor do token, sem o prefixo Bearer).
+
+- Configure o token no Swagger:
+
+- No topo direito da interface do Swagger, clique em "Authorize".
+- No campo de autorização, insira o token no formato:
+  ```sh
+      Bearer <seu_token>
+      
+   ```
+ - Por exemplo:
+   ```sh
+      Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc0MjMwNTYxMywiZXhwIjoxNzQyMzQxNjEzfQ.MjlU1LBl18X4vh8enWC_barJqKP6LTN2CA9SC6si7x8 
+   ```
+   ![image](https://github.com/user-attachments/assets/d8208f8a-0baa-4348-894b-4ee0a9d460b6)
+
+  ### Teste o endpoint /products:
+
+- Vá até o endpoint GET /products no Swagger.
+
+- Clique em "Try it out".
+
+- Clique em "Execute" para testar.
+
+- Se tudo estiver configurado corretamente, você deve receber a lista de produtos (ou uma resposta vazia, caso não existam produtos no banco de dados).
+
+- Valide os resultados:
+
+- Verifique o código de resposta HTTP. Se tudo estiver correto, o código deve ser 200 OK. 
+
+
+  
+ 
+
 
 
 
