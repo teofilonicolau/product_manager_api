@@ -96,6 +96,77 @@ Espera-se: Código 200 OK e uma lista de produtos dentro da faixa de preço espe
 
 - ![image](https://github.com/user-attachments/assets/0e91626e-b434-413e-be5e-8173846578b4)
 
+## . Teste de Login no Endpoint /auth/login
+ ### Este teste é para garantir que o login funcione e retorne um token JWT válido.
+
+- Abra o Postman.
+
+- Clique em "New" → "Request".
+
+- Configure a requisição:
+
+- Method: POST
+
+- URL: http://localhost:8080/auth/login
+
+- Headers:
+
+- Key: Content-Type
+
+- Value: application/json
+
+- Body:
+
+- Escolha raw e selecione JSON no dropdown.
+
+- Insira o seguinte JSON:
+  
+  ```sh
+      {
+       "username": "admin",
+       "password": "admin123"
+      }
+
+   ```
+  - Clique no botão Send.
+
+  - Resultado Esperado
+  - Você deverá receber uma resposta com o token JWT, como:
+      ```sh
+       {
+       
+         "token": "seu_jwt_aqui"
+       }
+
+    ```
+   ![image](https://github.com/user-attachments/assets/a1bbc345-8fa0-4759-8b1c-2b9b6dac73d9)
+
+  ### Teste de Endpoint Protegido
+ - Agora que temos  o token JWT, vamos usá-lo para acessar um endpoint protegido.
+
+ - Configuração
+ - Crie uma nova requisição no Postman.
+
+ - Configure a requisição:
+
+- Method: GET
+
+- URL: Substitua por um endpoint protegido, como:
+ 
+   ```sh
+        http://localhost:8080/produtos
+    ```
+- Headers:
+
+- Key: Authorization
+
+- Value: Bearer [seu_jwt_aqui] (substitua [seu_jwt_aqui] pelo token recebido no passo anterior).
+- Clique no botão Send.
+- Resultado Esperado
+- Você deverá receber os dados do endpoint protegido.   
+ 
+   
+
 
 
 
